@@ -39,6 +39,7 @@ def PrintJSON():
     url_response = requests.get(BrowserURL)
     data = url_response.json()
     PokemonJSON = (json.dumps(data, indent=4))
+    os.system('cls')
     print(PokemonJSON)
 
 
@@ -49,7 +50,7 @@ def CheckIfOnline(url):
     BrowserURL = url
     url_response = requests.get(url)
     if url_response.status_code != 200:
-        sys.clear
+        os.system('cls')
         print("Server does not exist")
         fail = True
     else:
@@ -62,9 +63,12 @@ def Replace1Fun():
     global URL
     Replace1.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
+        
         global PokemonJSON
         PokemonJSON = json.loads(PokemonJSON)
         x = PokemonJSON["name"]
@@ -73,14 +77,17 @@ def Replace1Fun():
             data.loc[data['Username'] == UserInput, 'poke1'] = x
         with open('Main/passwords.csv', 'w') as file:
             data.to_csv(file, index=False)
+        os.system('cls')
         print("The Pokemon has been replaced")
         Poke1.configure(text=x)
 
 
 def Replace2Fun():
     global URL
-    Replace1.configure(fg_color='lime')
+    Replace2.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
@@ -92,33 +99,44 @@ def Replace2Fun():
             data.loc[data['Username'] == UserInput, 'poke2'] = x
         with open('Main/passwords.csv', 'w') as file:
             data.to_csv(file, index=False)
+        os.system('cls')
         print("The Pokemon has been replaced")
         Poke2.configure(text=x)
 
 
 def Replace3Fun():
+    
     global URL
-    Replace1.configure(fg_color='lime')
+    Replace3.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
         global PokemonJSON
         PokemonJSON = json.loads(PokemonJSON)
-        x = PokemonJSON["name"]
-        with open('Main/passwords.csv', 'r') as file:
-            data = pd.read_csv(file, index_col=False)
-            data.loc[data['Username'] == UserInput, 'poke3'] = x
-        with open('Main/passwords.csv', 'w') as file:
-            data.to_csv(file, index=False)
-        print("The Pokemon has been replaced")
-        Poke3.configure(text=x)
+        try:
+            x = PokemonJSON["name"]
+            with open('Main/passwords.csv', 'r') as file:
+                data = pd.read_csv(file, index_col=False)
+                data.loc[data['Username'] == UserInput, 'poke3'] = x
+            with open('Main/passwords.csv', 'w') as file:
+                data.to_csv(file, index=False)
+            os.system('cls')
+            print("The Pokemon has been replaced")
+            Poke3.configure(text=x)
+        except KeyError:
+            print("No 'name' key in JSON response")
+            print(PokemonJSON)
 
 
 def Replace4Fun():
     global URL
-    Replace1.configure(fg_color='lime')
+    Replace4.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
@@ -130,33 +148,42 @@ def Replace4Fun():
             data.loc[data['Username'] == UserInput, 'poke4'] = x
         with open('Main/passwords.csv', 'w') as file:
             data.to_csv(file, index=False)
+        os.system('cls')
         print("The Pokemon has been replaced")
         Poke4.configure(text=x)
 
 
 def Replace5Fun():
     global URL
-    Replace1.configure(fg_color='lime')
+    Replace5.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
         global PokemonJSON
         PokemonJSON = json.loads(PokemonJSON)
-        x = PokemonJSON["name"]
-        with open('Main/passwords.csv', 'r') as file:
-            data = pd.read_csv(file, index_col=False)
-            data.loc[data['Username'] == UserInput, 'poke5'] = x
-        with open('Main/passwords.csv', 'w') as file:
-            data.to_csv(file, index=False)
-        print("The Pokemon has been replaced")
-        Poke5.configure(text=x)
+        try:
+            x = PokemonJSON["name"]
+            with open('Main/passwords.csv', 'r') as file:
+                data = pd.read_csv(file, index_col=False)
+                data.loc[data['Username'] == UserInput, 'poke5'] = x
+            with open('Main/passwords.csv', 'w') as file:
+                data.to_csv(file, index=False)
+            os.system('cls')
+            print("The Pokemon has been replaced")
+            Poke5.configure(text=x)
+        except KeyError:
+            print("No 'name' key in JSON response")
 
 
 def Replace6Fun():
     global URL
-    Replace1.configure(fg_color='lime')
+    Replace6.configure(fg_color='lime')
     selected = Entry.get()
+    Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
     URL = selected
     CheckIfOnline(URL)
     if fail is False:
@@ -168,6 +195,7 @@ def Replace6Fun():
             data.loc[data['Username'] == UserInput, 'poke6'] = x
         with open('Main/passwords.csv', 'w') as file:
             data.to_csv(file, index=False)
+        os.system('cls')
         print("The Pokemon has been replaced")
         Poke6.configure(text=x)
 
@@ -186,9 +214,28 @@ def LoginInput():
     Password = PassName.get()
     UserName.delete(0, tk.END)
     PassName.delete(0, tk.END)
-    login.destroy()
+    try:
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            pd.DataFrame(data)
+            data = (data.loc[data['Username'] == UserInput])
+            data = (data.loc[data['password'] == Password])
+            if data.empty is True:
+                LoginfailLabel.configure(text="Invalid Username or Password", text_color='red')
+            else:
+                global pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6, success
+                pokemon1 = data.loc[:, 'poke1'].to_string(index=False)
+                pokemon2 = data.loc[:, 'poke2'].to_string(index=False)
+                pokemon3 = data.loc[:, 'poke3'].to_string(index=False)
+                pokemon4 = data.loc[:, 'poke4'].to_string(index=False)
+                pokemon5 = data.loc[:, 'poke5'].to_string(index=False)
+                pokemon6 = data.loc[:, 'poke6'].to_string(index=False)
+                success = True
+                login.destroy()
+    except NameError:
+        LoginfailLabel.configure(text="Invalid Username or Password", text_color='red')
 
-
+        
 # Username Variables
 UserName = ""
 Password = ""
@@ -212,7 +259,7 @@ login.rowconfigure(4, weight=1)
 login.rowconfigure(5, weight=1)
 login.columnconfigure(6, weight=1)
 
-login.geometry("300x300")
+login.geometry("250x300")
 ctk.set_appearance_mode('dark')
 
 # Modules
@@ -221,36 +268,22 @@ PassLabel = ctk.CTkLabel(login, text="Password:")
 UserName = ctk.CTkEntry(login, height=50)
 PassName = ctk.CTkEntry(login, height=50)
 LoginButton = ctk.CTkButton(login, text="Login", command=LoginInput, height=30)
+LoginfailLabel = ctk.CTkLabel(login, text="Input Username and Password")
 
 # Grid the modules
 UserLabel.grid(row=0, column=0)
 PassLabel.grid(row=1, column=0, pady=50)
 
-UserName.grid(row=0, column=1)
-PassName.grid(row=1, column=1, pady=0)
+UserName.grid(row=0, column=1, sticky='ew')
+PassName.grid(row=1, column=1, pady=0, sticky='ew')
 
-LoginButton.grid(row=2, column=0, columnspan=2, pady=50, sticky='ew')
+LoginButton.grid(row=2, column=0, columnspan=2, pady=10, sticky='ew')
+
+LoginfailLabel.grid(row=3, column=0, columnspan=2, pady=10)
 
 login.mainloop()
 
-try:
-    with open('Main/passwords.csv', 'r') as file:
-        data = pd.read_csv(file, index_col=False)
-        pd.DataFrame(data)
-        data = (data.loc[data['Username'] == UserInput])
-        if data.empty is True:
-            print("Invalid Username or Password")
-            sys.exit()
-        else:
-            pokemon1 = data.loc[:, 'poke1'].to_string(index=False)
-            pokemon2 = data.loc[:, 'poke2'].to_string(index=False)
-            pokemon3 = data.loc[:, 'poke3'].to_string(index=False)
-            pokemon4 = data.loc[:, 'poke4'].to_string(index=False)
-            pokemon5 = data.loc[:, 'poke5'].to_string(index=False)
-            pokemon6 = data.loc[:, 'poke6'].to_string(index=False)
-            success = True
-except NameError:
-    print("Invalid Username or Password")
+
 
 # END LOGIN #
 # POKEMON PAGE #
@@ -321,16 +354,36 @@ if success is True:
 
     Poke3Label.grid(row=5, column=1)
     Poke3.grid(row=5, column=2, pady=10)
+    Replace3.grid(row=5, column=3, pady=10)
 
     Poke4Label.grid(row=6, column=1)
     Poke4.grid(row=6, column=2, pady=10)
+    Replace4.grid(row=6, column=3, pady=10)
 
     Poke5Label.grid(row=7, column=1)
     Poke5.grid(row=7, column=2, pady=10)
+    Replace5.grid(row=7, column=3, pady=10)
 
     Poke6Label.grid(row=8, column=1)
     Poke6.grid(row=8, column=2, pady=10)
+    Replace6.grid(row=8, column=3, pady=10)
 
     root.mainloop()
 
     # END POKEMON PAGE #
+
+# Thank you page :) #
+
+tysm = ctk.CTk()
+tysm.geometry("900x200")
+tysm.title("Thank You!")
+LabelTy = ctk.CTkLabel(tysm, text="Thank you for using our application!", font=('arial', 45))
+
+tysm.columnconfigure(1, weight=1)
+tysm.columnconfigure(2, weight=1)
+tysm.rowconfigure(1, weight=1)
+tysm.rowconfigure(2, weight=1)
+
+LabelTy.grid(row=0, column=0, columnspan=2, sticky='ew')
+
+tysm.mainloop()
