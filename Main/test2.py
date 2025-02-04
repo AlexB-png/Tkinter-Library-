@@ -3,19 +3,180 @@ import customtkinter as ctk  # Correct import
 import tkinter as tk  # Standard Tkinter
 import pandas as pd
 import sys
+import webbrowser
+import requests
+import json
+import os
 
-# Username Variables
-UserName = ""
-Password = ""
+def OpenURL():
+    global BrowserURL
+    webbrowser.open(BrowserURL)
 
-# Test Variables
-success = False  # test #
+
+def ExtraOperations():
+    global SuccessWindow
+    root.iconify()
+
+    # Window Setup
+    SuccessWindow = ctk.CTk()  
+    SuccessWindow.geometry('500x500')
+    SuccessWindow.title('Success')
+
+    # Modules
+    BrowserButton = ctk.CTkButton(SuccessWindow, text="Open JSON", command=OpenURL)
+    PrintJSONFile = ctk.CTkButton(SuccessWindow, text="Print JSON", command=PrintJSON)
+
+    # Grid Setup
+    BrowserButton.grid(row=0, column=0, pady=20)
+    PrintJSONFile.grid(row=1, column=0)
+
+    SuccessWindow.mainloop()
+
+
+def PrintJSON():
+    global PokemonJSON
+    global BrowserURL
+    url_response = requests.get(BrowserURL)
+    data = url_response.json()
+    PokemonJSON = (json.dumps(data, indent=4))
+    print(PokemonJSON)
+
+
+def CheckIfOnline(url):
+    global fail
+    global PokemonJSON
+    global BrowserURL
+    BrowserURL = url
+    url_response = requests.get(url)
+    if url_response.status_code != 200:
+        sys.clear
+        print("Server does not exist")
+        fail = True
+    else:
+        data = url_response.json()
+        PokemonJSON = (json.dumps(data, indent=4))
+        fail = False
+
+
+def Replace1Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke1'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke1.configure(text=x)
+
+
+def Replace2Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke2'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke2.configure(text=x)
+
+
+def Replace3Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke3'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke3.configure(text=x)
+
+
+def Replace4Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke4'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke4.configure(text=x)
+
+
+def Replace5Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke5'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke5.configure(text=x)
+
+
+def Replace6Fun():
+    global URL
+    Replace1.configure(fg_color='lime')
+    selected = Entry.get()
+    URL = selected
+    CheckIfOnline(URL)
+    if fail is False:
+        global PokemonJSON
+        PokemonJSON = json.loads(PokemonJSON)
+        x = PokemonJSON["name"]
+        with open('Main/passwords.csv', 'r') as file:
+            data = pd.read_csv(file, index_col=False)
+            data.loc[data['Username'] == UserInput, 'poke6'] = x
+        with open('Main/passwords.csv', 'w') as file:
+            data.to_csv(file, index=False)
+        print("The Pokemon has been replaced")
+        Poke6.configure(text=x)
 
 
 def PokeInput():
     global PokeInputVar
     PokeInputVar = Entry.get()
     Entry.delete(0, tk.END)
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
 
 
 def LoginInput():
@@ -27,6 +188,19 @@ def LoginInput():
     PassName.delete(0, tk.END)
     login.destroy()
 
+
+# Username Variables
+UserName = ""
+Password = ""
+
+# Test Variables
+success = False  # test #
+Fail = False
+
+# JSON Variables
+PokemonJSON = ""
+
+# LOGIN PAGE #
 
 login = ctk.CTk()
 
@@ -40,7 +214,6 @@ login.columnconfigure(6, weight=1)
 
 login.geometry("300x300")
 ctk.set_appearance_mode('dark')
-ctk.set_default_color_theme("green")
 
 # Modules
 UserLabel = ctk.CTkLabel(login, text="Username:")
@@ -65,7 +238,6 @@ try:
         data = pd.read_csv(file, index_col=False)
         pd.DataFrame(data)
         data = (data.loc[data['Username'] == UserInput])
-        print(data)
         if data.empty is True:
             print("Invalid Username or Password")
             sys.exit()
@@ -79,6 +251,9 @@ try:
             success = True
 except NameError:
     print("Invalid Username or Password")
+
+# END LOGIN #
+# POKEMON PAGE #
 
 if success is True:
     # PokeVariables
@@ -100,27 +275,62 @@ if success is True:
     # Modules
 
     PokeSubmit = ctk.CTkButton(root,
-                               text="Submit",
+                               text="Clear",
                                command=PokeInput,
                                height=50)
     label1 = ctk.CTkLabel(root, text="Input Pokemon")
     Entry = ctk.CTkEntry(root, height=50)
-    
-    Poke1 = ctk.CTkLabel(root, text=pokemon1, text_color='black', bg_color='grey')
-    Poke1Label = ctk.CTkLabel(root, text="Pokemon 1:")
-    Poke2 = ctk.CTkLabel(root, text=pokemon2, text_color='black', bg_color='grey')
-    Poke2Label = ctk.CTkLabel(root, text="Pokemon 2:")
+    Entry.insert(0, 'https://pokeapi.co/api/v2/pokemon/')
+
+    Poke1 = ctk.CTkLabel(root, text=pokemon1, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke1Label = ctk.CTkLabel(root, text="Pokemon 1:", font=('arial', 25))
+    Replace1 = ctk.CTkButton(root, text='replace', font=('arial', 15), fg_color='white', text_color='black', command=Replace1Fun)
+
+    Poke2 = ctk.CTkLabel(root, text=pokemon2, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke2Label = ctk.CTkLabel(root, text="Pokemon 2:", font=('arial', 25))
+    Replace2 = ctk.CTkButton(root, text='replace', font=('arial', 15),  fg_color='white', text_color='black', command=Replace2Fun)
+
+    Poke3 = ctk.CTkLabel(root, text=pokemon3, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke3Label = ctk.CTkLabel(root, text="Pokemon 3:", font=('arial', 25))
+    Replace3 = ctk.CTkButton(root, text='replace', font=('arial', 15),  fg_color='white', text_color='black', command=Replace3Fun)
+
+    Poke4 = ctk.CTkLabel(root, text=pokemon4, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke4Label = ctk.CTkLabel(root, text="Pokemon 4:", font=('arial', 25))
+    Replace4 = ctk.CTkButton(root, text='replace', font=('arial', 15),  fg_color='white', text_color='black', command=Replace4Fun)
+
+    Poke5 = ctk.CTkLabel(root, text=pokemon5, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke5Label = ctk.CTkLabel(root, text="Pokemon 5:", font=('arial', 25))
+    Replace5 = ctk.CTkButton(root, text='replace', font=('arial', 15),  fg_color='white', text_color='black', command=Replace5Fun)
+
+    Poke6 = ctk.CTkLabel(root, text=pokemon6, text_color='black', bg_color='grey', font=('arial', 25))
+    Poke6Label = ctk.CTkLabel(root, text="Pokemon 6:", font=('arial', 25))
+    Replace6 = ctk.CTkButton(root, text='replace', font=('arial', 15),  fg_color='white', text_color='black', command=Replace6Fun)
 
     # Grid the modules
     Entry.grid(row=1, column=1, columnspan=3, sticky='ew', pady=20)
     label1.grid(row=0, column=2, pady=20)
     PokeSubmit.grid(row=1, column=4, padx=10)
-    
+
     Poke1Label.grid(row=3, column=1)
     Poke1.grid(row=3, column=2, pady=10)
+    Replace1.grid(row=3, column=3, pady=10)
+
     Poke2Label.grid(row=4, column=1)
     Poke2.grid(row=4, column=2, pady=10)
+    Replace2.grid(row=4, column=3, pady=10)
 
+    Poke3Label.grid(row=5, column=1)
+    Poke3.grid(row=5, column=2, pady=10)
 
+    Poke4Label.grid(row=6, column=1)
+    Poke4.grid(row=6, column=2, pady=10)
+
+    Poke5Label.grid(row=7, column=1)
+    Poke5.grid(row=7, column=2, pady=10)
+
+    Poke6Label.grid(row=8, column=1)
+    Poke6.grid(row=8, column=2, pady=10)
 
     root.mainloop()
+
+    # END POKEMON PAGE #
